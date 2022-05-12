@@ -20,7 +20,8 @@
     "@prisma/client": "^3.14.0",
     "fastify": "^3.0.0",
     "fastify-cli": "^3.0.1",
-    "fastify-plugin": "^3.0.0"
+    "fastify-plugin": "^3.0.0",
+    "js-excel-template": "^3.0.1"
   },
   "devDependencies": {
     "prisma": "^3.14.0",
