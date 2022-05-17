@@ -7,7 +7,7 @@ import productRoutes from "./modules/product/product.route";
 import { userSchemas } from "./modules/user/user.schema";
 import { productSchemas } from "./modules/product/product.schema";
 import { version } from "../package.json";
-
+import masterTableRoutes from "./modules/masterTable/masterTable.route";
 export const server = Fastify();
 
 declare module "fastify" {
@@ -68,7 +68,7 @@ async function main() {
 
   server.register(userRoutes, { prefix: "api/users" });
   server.register(productRoutes, { prefix: "api/products" });
-
+  server.register(masterTableRoutes, { prefix: "api/masterTable" });
   try {
     await server.listen(3000, "0.0.0.0");
 
