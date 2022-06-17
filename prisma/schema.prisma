@@ -31,24 +31,131 @@ model Product {
 }
 
 model MasterTable {
-  id                Int                 @id @default(autoincrement())
-  isActive          Boolean             @default(true)
-  modifiedBy        String              @db.VarChar(255)
-  modifiedAt        DateTime            @default(now())
-  createdBy         String              @db.VarChar(255)
-  createdAt         DateTime            @default(now())
-  description       String              @unique @db.VarChar(255)
-  MasterTableDetail MasterTableDetail[]
+  id         Int                 @id @default(autoincrement())
+  createdAt  DateTime            @default(now())
+  modifiedAt DateTime            @default(now())
+  createdBy  Int
+  modifiedBy Int
+  isActive   Boolean
+  title      String              @db.VarChar(255)
+  details    MasterTableDetail[]
+
+
 }
 
 model MasterTableDetail {
-  id          Int         @id @default(autoincrement())
-  isActive    Boolean     @default(true)
-  modifiedBy  String      @db.VarChar(255)
-  modifiedAt  DateTime    @default(now())
-  createdBy   String      @db.VarChar(255)
-  createdAt   DateTime    @default(now())
-  header      MasterTable @relation(fields: [headerId], references: [id])
-  headerId    Int
-  description String      @db.VarChar(255)
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  modifiedAt DateTime    @default(now())
+  createdBy  Int
+  modifiedBy Int
+  isActive   Boolean
+  title      String      @db.VarChar(255)
+  value      String      @db.VarChar(255)
+  header     MasterTable @relation(fields: [headerId], references: [id])
+  headerId   Int
+}
+
+model MasterActionPlan {
+  id                 Int                @id @default(autoincrement())
+  createdAt          DateTime           @default(now())
+  modifiedAt         DateTime           @default(now())
+  createdBy          Int
+  modifiedBy         Int
+  isActive           Boolean
+  year               Int
+  preparedBy         String             @db.VarChar(255)
+  preparedByPosition String             @db.VarChar(255)
+  approver           String             @db.VarChar(255)
+  approverPosition   String             @db.VarChar(255)
+  indicators         MasterIndicators[]
+}
+
+model MasterIndicators {
+  id                    Int      @id @default(autoincrement())
+  createdAt             DateTime @default(now())
+  modifiedAt            DateTime @default(now())
+  createdBy             Int
+  modifiedBy            Int
+  isActive              Boolean
+  code                  String   @db.VarChar(50)
+  plannedDateStart      DateTime
+  plannedDateEnd        DateTime
+  plannedBudget         Float
+  plannedMagnitude      Float
+  responsibleOffice     String   @db.VarChar(255)
+  sourceOfFound         Int
+  budgetaryRequirements Float
+  target                Float
+  subCategory           String   @db.VarChar(255)
+  category              String   @db.VarChar(255)
+  description           String
+  objectives            String
+  group                 String   @db.VarChar(255)
+
+  masterActionPlan   MasterActionPlan? @relation(fields: [masterActionPlanId], references: [id])
+  masterActionPlanId Int?
+}
+
+model TxnOPCR {
+  id               Int              @id @default(autoincrement())
+  creationDate     DateTime         @default(now())
+  modificationDate DateTime         @default(now())
+  createdBy        Int
+  modifiedBy       Int
+  isActive         Boolean
+  Year             Int
+  office           String           @db.VarChar(50)
+  startDate        DateTime
+  endDate          DateTime
+  details          TxtOPCRdetails[]
+}
+
+model TxtOPCRdetails {
+  id               Int      @id @default(autoincrement())
+  actionPlanCode   String
+  actualMagtinude  Float
+  actualBudget     Float
+  actualDateStart  DateTime
+  actualDateEnd    DateTime
+  ratingQuality    Float
+  ratingEfficiency Float
+  timeliness       Float
+  average          Float
+  remarks          Float
+  creationDate     DateTime @default(now())
+  modificationDate DateTime @default(now())
+  createdBy        Int
+  modifiedBy       Int
+  isActive         Boolean
+  opcrId           Int
+  header           TxnOPCR? @relation(fields: [headerId], references: [id])
+  headerId         Int?
+}
+
+model TxnQAMR {
+  id               Int              @id @default(autoincrement())
+  creationDate     DateTime         @default(now())
+  modificationDate DateTime         @default(now())
+  createdBy        Int
+  modifiedBy       Int
+  isActive         Boolean
+  year             Int
+  office           String           @db.VarChar(50)
+  details          TxnQAMRdetails[]
+}
+
+model TxnQAMRdetails {
+  id               Int      @id @default(autoincrement())
+  creationDate     DateTime @default(now())
+  modificationDate DateTime @default(now())
+  createdBy        Int
+  modifiedBy       Int
+  isActive         Boolean
+  qamrId           Int
+  actionPlanCode   String
+  reason           String   @db.VarChar(255)
+  remarks          String   @db.VarChar(255)
+  header           TxnQAMR? @relation(fields: [headerId], references: [id])
+  headerId         Int?
 }

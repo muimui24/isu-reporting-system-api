@@ -6,6 +6,7 @@ import userRoutes from "./modules/user/user.route";
 import productRoutes from "./modules/product/product.route";
 import { userSchemas } from "./modules/user/user.schema";
 import { productSchemas } from "./modules/product/product.schema";
+import { masterTableSchemas } from "./modules/masterFIle/masterTable/masterTable.schema";
 import { version } from "../package.json";
 import masterTableRoutes from "./modules/masterTable/masterTable.route";
 export const server = Fastify();
@@ -46,7 +47,7 @@ server.get("/healthcheck", async function () {
 });
 
 async function main() {
-  for (const schema of [...userSchemas, ...productSchemas]) {
+  for (const schema of [...userSchemas, ...productSchemas, ...masterTableSchemas]) {
     server.addSchema(schema);
   }
 
