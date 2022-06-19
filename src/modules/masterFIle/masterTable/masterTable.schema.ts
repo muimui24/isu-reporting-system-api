@@ -1,34 +1,35 @@
 import { z } from "zod";
 import { buildJsonSchemas } from "fastify-zod";
 
-const input = {
-title : z.string(),
-createdAt : z.string(),
-};
-
-const generated = {
-id : z.number(),
-modifiedAt : z.string().optional(),
-isActive : z.boolean(),
-createdBy : z.string(),
-modifiedBy : z.string().optional(),
-};
-
-const createSchema = z.object({
-...input,
+const createInputSchema = z.object({
+    title: z.string(),
+    createdBy: z.string(),
 });
 
 const responseSchema = z.object({
-    ...input,
-    ...generated,
+    id: z.number(),
+    modifiedAt: z.date(),
+    modifiedBy: z.string(),
+    isActive: z.boolean(),
+    createdBy: z.string(),
+    createdAt: z.date(),
+    title: z.string(),
+});
+
+const updateSchema = z.object({
+    id: z.number(),
+    title: z.string(),
+    modifiedBy: z.string(),
 });
 
 const responsesSchema = z.array(responseSchema);
 
-export type CreateInput = z.infer<typeof createSchema>;
+export type CreateInputValidator = z.infer<typeof createInputSchema>;
+export type UpdateInputValidator = z.infer<typeof updateSchema>;
 
-export const {schemas: masterTableSchemas, $ref} = buildJsonSchemas({
-createSchema,
-responseSchema,
-responsesSchema
+export const { schemas: masterTableSchemas, $ref } = buildJsonSchemas({
+    createInputSchema,
+    responseSchema,
+    responsesSchema,
+    updateSchema
 });

@@ -4,11 +4,11 @@ import swagger from "fastify-swagger";
 import { withRefResolver } from "fastify-zod";
 import userRoutes from "./modules/user/user.route";
 import productRoutes from "./modules/product/product.route";
+import masterTableRoutes from "./modules/masterFIle/masterTable/masterTable.route";
 import { userSchemas } from "./modules/user/user.schema";
 import { productSchemas } from "./modules/product/product.schema";
 import { masterTableSchemas } from "./modules/masterFIle/masterTable/masterTable.schema";
 import { version } from "../package.json";
-import masterTableRoutes from "./modules/masterTable/masterTable.route";
 export const server = Fastify();
 
 declare module "fastify" {
@@ -69,7 +69,7 @@ async function main() {
 
   server.register(userRoutes, { prefix: "api/users" });
   server.register(productRoutes, { prefix: "api/products" });
-  server.register(masterTableRoutes, { prefix: "api/masterTable" });
+  server.register(masterTableRoutes, {prefix: "api/masterTables" });
   try {
     await server.listen(3000, "0.0.0.0");
 
